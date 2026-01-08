@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{B407DE30-854F-4FFE-B869-4C013FDDAF5E}") = "NowPlaying", "NowPlaying.csproj", "{9CB2131E-1A3E-4D15-AFB5-83A0D1107D2B}"
+Project("{B407DE30-854F-4FFE-B869-4C013FDDAF5E}") = "MovieTime", "MovieTime.csproj", "{9CB2131E-1A3E-4D15-AFB5-83A0D1107D2B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

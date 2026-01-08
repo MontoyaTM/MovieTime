@@ -1,0 +1,5 @@
+﻿.homeStyle {
+    background: linear-gradient(135deg, rgba(122, 28, 22, .95) 0%, rgba(163, 50, 36, .80) 45%, rgba(212, 90, 58, .95) 100%),
+        url("/images/nowplaying.jpg") center / cover no-repeat;
+    color: var(--cf-light-color);
+}
