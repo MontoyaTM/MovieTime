@@ -1,0 +1,43 @@
+﻿.pageStyle {
+    background-position: center;
+    background-size: cover;
+}
+
+.blur-border {
+    filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.6));
+}
+
+
+.title{
+    font-family: var(--cf-title-font);
+    font-size: 3rem;
+    color: var(--cf-light-color);
+    line-height: 3rem;
+}
+
+.subTitle{
+    font-size: 1rem;
+    font-family: var(--cf-body-font);
+}
+
+.devicons{
+    font-size: 2rem;
+}
+
+@media (min-width: 992px){
+    .title {
+        font-family: var(--cf-title-font);
+        font-size: 3.5rem;
+        color: var(--cf-light-color);
+        line-height: 3rem;
+    }
+
+    .subTitle {
+        font-size: 1.5rem;
+        font-family: var(--cf-body-font);
+    }
+
+    .devicons {
+        font-size: 2.5rem;
+    }
+}
