@@ -1,0 +1,24 @@
+﻿
+<div class="movieCard card h-100">
+    <img src="@Movie.PosterPath" alt="Movie Poster" class="card-img-top"/>
+    <div class="card-body blur-border border-top">
+        <div class="card-title fw-bold lh-1">
+            @Movie.Title
+        </div>
+        <div class="card-text lh-1 fst-italic">
+            @{
+                var parsed = DateTime.TryParse(Movie.ReleaseDate, out var releaseDate);
+            }
+            Release Date: @(parsed ? releaseDate.ToString("MMMM dd, yyyy") : "unknown")
+        </div>
+    </div>
+    <div class="movieCardFooter card-footer d-flex justify-content-between">
+        <button class="btn btn-outline-primary">Add Favorite</button>
+        <a href="moviedetail" class="btn btn-primary">More Info</a>
+    </div>
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public Movie? Movie { get; set; } 
+}
