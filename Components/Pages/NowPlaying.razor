@@ -1,0 +1,92 @@
+﻿@page "/now-playing"
+
+@using System.Net.Http.Json
+@using System.Text.Json
+
+@inject HttpClient http
+@inject IConfiguration config
+
+<PageTitle>Now Playing</PageTitle>
+
+<div class="container-xxl py-3">
+    <h1>
+        <i class="bi bi-film text-primary"></i>
+        Now Playing
+    </h1>
+    <p class="lead italic">
+        Movies that are now playing in theatres.
+    </p>
+    <div class="row g-3 row-cols-1 row-cols-sm-2 rowcols-lg-3 row-cols-lg-4">
+        
+        @if(nowPlayingMovies is null)
+        {
+            <div class="d-flex justify-content-center align-items-center">
+                @if(isLoading)
+                {
+                    <h2 class="text-muted">
+                        Loading now playing movies...
+                    </h2>
+                } 
+                else
+                {
+                    <h2 class="text-muted">
+                        Failed to load now playing movies.
+                    </h2>
+                }
+            </div>
+        }
+        else
+        {
+            @foreach (var movie in nowPlayingMovies.Results)
+            {
+                <div>
+                    <MovieCard Movie="movie"/>
+                </div>
+            }
+        }
+
+        
+    </div>
+</div>
+
+@code {
+    private MovieListResponse? nowPlayingMovies;
+    private string? tmdbKey;
+    private bool isLoading = true;
+
+    private readonly JsonSerializerOptions jsonOptions = new()
+    {
+        PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower
+    };
+
+    protected override async Task OnInitializedAsync()
+    {
+        tmdbKey = config["TMDB_Key"];
+
+        if(!string.IsNullOrEmpty(tmdbKey))
+        {
+            string url = "https://api.themoviedb.org/3/movie/now_playing?region=US&language=en-US";
+            string baseImageUrl = "https://image.tmdb.org/t/p/w500";
+            http.DefaultRequestHeaders.Authorization = new ("Bearer", tmdbKey);
+
+            MovieListResponse response = await http.GetFromJsonAsync<MovieListResponse>(url, jsonOptions) 
+                ?? throw new HttpIOException(HttpRequestError.InvalidResponse, "Failed to load now playing response.");
+
+            foreach(var movie in response.Results)
+            {
+                if(string.IsNullOrEmpty(movie.PosterPath))
+                {
+                    movie.PosterPath = "/images/Poster.png";
+                }
+                else
+                {
+                    movie.PosterPath = $"{baseImageUrl}{movie.PosterPath}";
+                }
+            }
+
+            nowPlayingMovies = response;
+        }
+    }
+
+
+}
