@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using MovieTime.Services;
 
 namespace MovieTime
 {
@@ -12,6 +13,8 @@ namespace MovieTime
             builder.RootComponents.Add<HeadOutlet>("head::after");
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            builder.Services.AddScoped<TMDBService>();
+            builder.Services.AddScoped<FavoriteService>();
 
             await builder.Build().RunAsync();
         }
