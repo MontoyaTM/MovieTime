@@ -95,5 +95,22 @@ namespace MovieTime.Services
             return response;
         }
 
+        public async Task<MovieDetails> GetMovieById(int movieId)
+        {
+            string url = $"https://api.themoviedb.org/3/movie/{movieId}";
+
+            MovieDetails movie = await _http.GetFromJsonAsync<MovieDetails>(url, _jsonOptions) 
+                ?? throw new HttpIOException(HttpRequestError.InvalidResponse, "Could not retrieve movie details");
+
+            movie.PosterPath = string.IsNullOrEmpty(movie.PosterPath) 
+                ? "/images/poster.png" 
+                : $"https://image.tmdb.org/t/p/w500{movie.PosterPath}";
+
+            movie.BackdropPath = string.IsNullOrEmpty(movie.BackdropPath.ToString()) 
+                ? "/images/backdrop.jpg" 
+                : $"https://image.tmdb.org/t/p/w780{movie.BackdropPath}";
+
+            return movie;
+        }
     }
 }
