@@ -126,5 +126,29 @@ namespace MovieTime.Services
 
             return movieTrailer;
         }
+
+        public async Task<CreditsResponse> GetMovieCredits(int movieId)
+        {
+            string url = $"https://api.themoviedb.org/3/movie/{movieId}/credits?language=en-US";
+
+            var credits = await _http.GetFromJsonAsync<CreditsResponse>(url, _jsonOptions)
+                ?? throw new HttpIOException(HttpRequestError.InvalidResponse, "Could not retrieve movie credits");
+
+            foreach(var cast in credits.Cast)
+            {
+                cast.ProfilePath = string.IsNullOrEmpty(cast.ProfilePath)
+                    ? "/images/Profile.jpg"
+                    : $"https://image.tmdb.org/t/p/w500{cast.ProfilePath}";
+            }
+
+            foreach (var crew in credits.Crew)
+            {
+                crew.ProfilePath = string.IsNullOrEmpty(crew.ProfilePath)
+                    ? "/images/Profile.jpg"
+                    : $"https://image.tmdb.org/t/p/w500{crew.ProfilePath}";
+            }
+
+            return credits;
+        }
     }
 }
