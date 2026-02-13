@@ -23,6 +23,13 @@ namespace MovieTime.Services
             }
         }
 
+        /// <summary>
+        /// Retrieves a list of movies that are currently playing in theaters in the US using The Movie Database (TMDb) API.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation. The task result contains a
+        /// cref="MovieListResponse"/> object with details about the now-playing movies. The list will be empty if no movies are currently playing.</returns>
+        /// <exception cref="HttpIOException">Thrown if the HTTP response is invalid or the now-playing movies data cannot be retrieved from the remote
+        /// service.</exception>
         public async Task<MovieListResponse> GetNowPlayingMovies()
         {
             string url = "https://api.themoviedb.org/3/movie/now_playing?region=US&language=en-US";
@@ -45,6 +52,12 @@ namespace MovieTime.Services
             return response;
         }
 
+        /// <summary>
+        /// Retrieves a list of popular movies from The Movie Database (TMDb) API.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation. The task result contains a MovieListResponse object with
+        /// details of popular movies. The list will be empty if no popular movies are found.</returns>
+        /// <exception cref="HttpIOException">Thrown if the response from the movie database API is invalid or cannot be retrieved.</exception>
         public async Task<MovieListResponse> GetPopularMovies()
         {
             string url = "https://api.themoviedb.org/3/movie/popular?region=US&language=en-US";
@@ -68,11 +81,12 @@ namespace MovieTime.Services
         }
 
         /// <summary>
-        /// Search for movies
+        /// Searches for movies that match the specified query string using The Movie Database (TMDb) API.
         /// </summary>
-        /// <param name="query">User supplied query</param>
-        /// <returns></returns>
-        /// <exception cref="HttpIOException"></exception>
+        /// <param name="query">The search text to use for finding matching movie titles. Cannot be null or empty.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains a MovieListResponse with the
+        /// list of movies matching the search criteria. The list will be empty if no movies are found.</returns>
+        /// <exception cref="HttpIOException">Thrown if the search results cannot be loaded due to an invalid or failed HTTP response.</exception>
         public async Task<MovieListResponse> SearchMovies(string query)
         {
             string url = $"https://api.themoviedb.org/3/search/movie?query={query}&include_adult=false&language=en-us";
@@ -95,6 +109,17 @@ namespace MovieTime.Services
             return response;
         }
 
+        /// <summary>
+        /// Retrieves detailed information for a movie by its unique identifier.
+        /// </summary>
+        /// <remarks>The returned MovieDetails object will have fully qualified URLs for poster and
+        /// backdrop images. If the movie does not have a poster or backdrop, default image paths are
+        /// provided.</remarks>
+        /// <param name="movieId">The unique identifier of the movie to retrieve. Must be a valid movie ID as recognized by the external movie
+        /// database.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains a MovieDetails object with
+        /// information about the specified movie.</returns>
+        /// <exception cref="HttpIOException">Thrown if the movie details cannot be retrieved due to an invalid response from the external service.</exception>
         public async Task<MovieDetails> GetMovieById(int movieId)
         {
             string url = $"https://api.themoviedb.org/3/movie/{movieId}";
@@ -113,6 +138,14 @@ namespace MovieTime.Services
             return movie;
         }
 
+        /// <summary>
+        /// Retrieves the first available YouTube trailer video for the specified movie from The Movie Database (TMDb) API.
+        /// </summary>
+        /// <param name="movieId">The unique identifier of the movie for which to retrieve the trailer.</param>
+        /// <returns>A Video object representing the YouTube trailer for the specified movie, or
+        /// null if no trailer is found.</returns>
+        /// <exception cref="HttpIOException">Thrown when the movie trailer information cannot be retrieved due to an invalid response from the external
+        /// service.</exception>
         public async Task<Video?> GetMovieTrailer(int movieId)
         {
             string url = $"https://api.themoviedb.org/3/movie/{movieId}/videos?language=en-US";
@@ -127,6 +160,13 @@ namespace MovieTime.Services
             return movieTrailer;
         }
 
+        /// <summary>
+        /// Retrieves the cast and crew credits for a specified movie from The Movie Database (TMDb).
+        /// </summary>
+        /// <param name="movieId">The unique identifier of the movie for which to retrieve credits.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains a CreditsResponse object with
+        /// the cast and crew information for the specified movie.</returns>
+        /// <exception cref="HttpIOException">Thrown if the movie credits cannot be retrieved due to an invalid response from the remote server.</exception>
         public async Task<CreditsResponse> GetMovieCredits(int movieId)
         {
             string url = $"https://api.themoviedb.org/3/movie/{movieId}/credits?language=en-US";
