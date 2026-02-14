@@ -1,13 +1,20 @@
 ﻿#!/usr/bin/env bash
 set -e
 
-## install latest .NET 8.0 release
+# Change into a temporary directory so we can download + install .NET
 pushd /tmp
-wget https://builds.dotnet.microsoft.com/dotnet/scripts/v1/dotnet-install.sh
 
-chmod u+x /tmp/dotnet-install.sh
-/tmp/dotnet-install.sh --channel 8.0
+# Download Microsoft install script
+wget https://dot.net/v1/dotnet-install.sh
+
+# Make the script executable
+chmod +x ./dotnet-install.sh
+
+# Install .NET 8 (modify channel if needed in the future)
+./dotnet-install.sh --channel 8.0
+
+# Return to project directory
 popd
 
-## publish project to known location for subsequent deployment by Netlify
-dotnet publish MovieTime.csproj -c Release -o release
+# Now we can publish (since we've installed .NET in this environment)
+dotnet publish -c Release -o release
