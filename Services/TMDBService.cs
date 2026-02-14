@@ -19,7 +19,13 @@ namespace MovieTime.Services
 
             if(!string.IsNullOrWhiteSpace(tmdbKey))
             {
+                _http.BaseAddress = new Uri("https://api.themoviedb.org/3/");
                 _http.DefaultRequestHeaders.Authorization = new("Bearer", tmdbKey);
+            }
+            else
+            {
+                // Deployed to Netlify
+                _http.BaseAddress = new Uri(_http.BaseAddress + "tmdb/");
             }
         }
 
@@ -32,7 +38,7 @@ namespace MovieTime.Services
         /// service.</exception>
         public async Task<MovieListResponse> GetNowPlayingMovies()
         {
-            string url = "https://api.themoviedb.org/3/movie/now_playing?region=US&language=en-US";
+            string url = "movie/now_playing?region=US&language=en-US";
 
             MovieListResponse response = await _http.GetFromJsonAsync<MovieListResponse>(url, _jsonOptions)
                 ?? throw new HttpIOException(HttpRequestError.InvalidResponse, "Failed to retrieve now-playing movies response.");
@@ -60,7 +66,7 @@ namespace MovieTime.Services
         /// <exception cref="HttpIOException">Thrown if the response from the movie database API is invalid or cannot be retrieved.</exception>
         public async Task<MovieListResponse> GetPopularMovies()
         {
-            string url = "https://api.themoviedb.org/3/movie/popular?region=US&language=en-US";
+            string url = "movie/popular?region=US&language=en-US";
 
             MovieListResponse response = await _http.GetFromJsonAsync<MovieListResponse>(url, _jsonOptions)
                 ?? throw new HttpIOException(HttpRequestError.InvalidResponse, "Failed to retrieve popular movies response.");
@@ -89,7 +95,7 @@ namespace MovieTime.Services
         /// <exception cref="HttpIOException">Thrown if the search results cannot be loaded due to an invalid or failed HTTP response.</exception>
         public async Task<MovieListResponse> SearchMovies(string query)
         {
-            string url = $"https://api.themoviedb.org/3/search/movie?query={query}&include_adult=false&language=en-us";
+            string url = $"search/movie?query={query}&include_adult=false&language=en-us";
 
             MovieListResponse response = await _http.GetFromJsonAsync<MovieListResponse>(url, _jsonOptions)
                 ?? throw new HttpIOException(HttpRequestError.InvalidResponse, "Search results cannot be loaded.");
@@ -122,7 +128,7 @@ namespace MovieTime.Services
         /// <exception cref="HttpIOException">Thrown if the movie details cannot be retrieved due to an invalid response from the external service.</exception>
         public async Task<MovieDetails> GetMovieById(int movieId)
         {
-            string url = $"https://api.themoviedb.org/3/movie/{movieId}";
+            string url = $"movie/{movieId}";
 
             MovieDetails movie = await _http.GetFromJsonAsync<MovieDetails>(url, _jsonOptions) 
                 ?? throw new HttpIOException(HttpRequestError.InvalidResponse, "Could not retrieve movie details");
@@ -148,7 +154,7 @@ namespace MovieTime.Services
         /// service.</exception>
         public async Task<Video?> GetMovieTrailer(int movieId)
         {
-            string url = $"https://api.themoviedb.org/3/movie/{movieId}/videos?language=en-US";
+            string url = $"movie/{movieId}/videos?language=en-US";
 
             MovieVideoResponse videos = await _http.GetFromJsonAsync<MovieVideoResponse>(url, _jsonOptions)
                 ?? throw new HttpIOException(HttpRequestError.InvalidResponse, "Could not retrieve movie trailer");
@@ -169,7 +175,7 @@ namespace MovieTime.Services
         /// <exception cref="HttpIOException">Thrown if the movie credits cannot be retrieved due to an invalid response from the remote server.</exception>
         public async Task<CreditsResponse> GetMovieCredits(int movieId)
         {
-            string url = $"https://api.themoviedb.org/3/movie/{movieId}/credits?language=en-US";
+            string url = $"movie/{movieId}/credits?language=en-US";
 
             var credits = await _http.GetFromJsonAsync<CreditsResponse>(url, _jsonOptions)
                 ?? throw new HttpIOException(HttpRequestError.InvalidResponse, "Could not retrieve movie credits");
