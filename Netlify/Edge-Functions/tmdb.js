@@ -1,5 +1,5 @@
 ﻿export default async (request, context) => {
-    const key = Netlify.env.get('API_Key');
+    const key = Netlify.env.get('API_KEY');
     let tmdbUrl = Netlify.env.get('API_URL');
 
     if (!tmdbUrl.endsWith('/')) tmdbUrl += '/';
@@ -11,10 +11,9 @@
         headers: {
             'Authorization': `Bearer ${key}`
         }
-    }
-    )
-}
+    });
+};
 
 export const config = {
-    path: 'tmdb/*'
+    path: '/tmdb/*'
 }
