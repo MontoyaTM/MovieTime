@@ -18,7 +18,8 @@
     <br />
     <br />
   </p>
-    [Visit Website](https://blazormovietime.netlify.app)
+
+[Visit Website](https://blazormovietime.netlify.app)
 </div>
 
 <!-- TABLE OF CONTENTS -->
