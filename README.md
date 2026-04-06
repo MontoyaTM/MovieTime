@@ -6,7 +6,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/MontoyaTM/MovieTime">
-    <img src="wwwroot/images/MontoyaTM.png" alt="Logo" width="80" height="80">
+    <img src="wwwroot/images/MovieTimeBG.png" alt="Logo" width="164" height="164">
   </a>
 
 <h3 align="center">Movie Time</h3>
