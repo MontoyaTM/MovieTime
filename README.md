@@ -1,5 +1,3 @@
-
-
 <a id="readme-top"></a>
 
 [![LinkedIn][linkedin-shield]][linkedin-url]
@@ -19,9 +17,8 @@
     <br />
     <br />
     <br />
-    &middot;
-    <a href="blazormovietime.netlify.app">Visit Website</a>
   </p>
+    [Visit Website](https://blazormovietime.netlify.app)
 </div>
 
 <!-- TABLE OF CONTENTS -->
